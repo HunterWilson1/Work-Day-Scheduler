@@ -1,6 +1,8 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
+const saveButton = $(".saveBtn");
+
 $(function () {
   // TODO: Add a listener for click events on the save button. This code should
   // use the id in the containing time-block as a key to save the user input in
@@ -19,10 +21,32 @@ $(function () {
   // the values of the corresponding textarea elements. HINT: How can the id
   // attribute of each time-block be used to do this?
   //
+  function time() {
+    const dateTime = dayjs().format("MMM D, YYYY hh:mm a");
+    document.getElementById("currentDay").innerHTML = dateTime;
+  }
+  setInterval(time, 1000);
+  
+  function tracker() {
+  var currentHour = dayjs().hour();
+  
+  //
+  $(".time-block").each(function(){
+    var thisHour = parseInt($(this).attr("id"));
+  
+    if (thisHour > currentHour) {
+      $(this).addClass("future");
+    } else if (thisHour === currentHour) {
+      $(this).addClass("present");
+    } else {
+      $(this).addClass("past");
+    }
+  })
+  }
+  
+
+
+  tracker();
   
 });
 // TODO: Add code to display the current date in the header of the page.
-setInterval(() => {
-  const dateTime = dayjs().format("MMM D, YYYY hh:mm a");
-  document.getElementById("currentDay").innerHTML = dateTime;
-}, 1000);
