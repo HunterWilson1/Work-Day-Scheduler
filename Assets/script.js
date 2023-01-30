@@ -32,11 +32,11 @@ $(function () {
   
   //
   $(".time-block").each(function(){
-    var thisHour = parseInt($(this).attr("id"));
+    var thisHour = $(this).attr("id").split("-")[1];
   
     if (thisHour > currentHour) {
       $(this).addClass("future");
-    } else if (thisHour === currentHour) {
+    } else if (thisHour == currentHour) {
       $(this).addClass("present");
     } else {
       $(this).addClass("past");
