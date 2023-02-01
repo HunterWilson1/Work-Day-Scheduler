@@ -1,6 +1,7 @@
 // Wrap all code that interacts with the DOM in a call to jQuery to ensure that
 // the code isn't run until the browser has finished rendering all the elements
 // in the html.
+//made my own constant for the jquery btn
 const saveButton = $(".saveBtn");
 
 $(function () {
@@ -26,27 +27,39 @@ $(function () {
     document.getElementById("currentDay").innerHTML = dateTime;
   }
   setInterval(time, 1000);
-  
+
   function tracker() {
-  var currentHour = dayjs().hour();
-  
-  //
-  $(".time-block").each(function(){
-    var thisHour = $(this).attr("id").split("-")[1];
-  
-    if (thisHour > currentHour) {
-      $(this).addClass("future");
-    } else if (thisHour == currentHour) {
-      $(this).addClass("present");
-    } else {
-      $(this).addClass("past");
-    }
-  })
+    var currentHour = dayjs().hour();
+
+    //this selects the elements with time-block class and does a function. It creates a variable (thisHour)
+    //and sets the value of the var by getting the id of the hour in the element.Then splits value by the - and gets the next item in the array.
+    $(".time-block").each(function () {
+      var thisHour = $(this).attr("id").split("-")[1];
+
+      //this compares the time that the thisHour variable pulls and the current hour.
+      if (thisHour > currentHour) {
+        $(this).addClass("future");
+      } else if (thisHour == currentHour) {
+        $(this).addClass("present");
+      } else {
+        $(this).addClass("past");
+      }
+    });
   }
-  
 
-
+  //event handler for the save button so that the text description is saved to local storage.
+  $(document).ready(function () {
+    saveButton.on("click", function () {
+      //retrives the value of id attribute
+      var time = $(this).siblings().attr('id');
+      //retrieves the text area description 
+      var text = $(this).siblings(".description").val();
+      //saves variables to local storage
+      localStorage.setItem(time, text);
+    });
+  });
   tracker();
-  
+
+
 });
 // TODO: Add code to display the current date in the header of the page.
